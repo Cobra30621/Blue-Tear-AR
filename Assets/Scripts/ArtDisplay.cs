@@ -10,9 +10,26 @@ public class ArtDisplay : MonoBehaviour
 
     public VidPlayer[] vidPlayers;
 
+    public MeshRenderer defaultRenderer; // 預設的 Mesh Renderer
     
-    #region Sun
 
+    public void OnFound()
+    {
+        defaultRenderer.enabled = true;
+    }
+
+    public void OnLeaved()
+    {
+        StopAllVidPlayers();
+        
+        light.gameObject.SetActive(false);
+        blueTear.gameObject.SetActive(false);
+        SunVideoPlayer.gameObject.SetActive(false);
+    }
+    
+
+    #region Sun
+    [ContextMenu("Show Sun")]
     public void ShowSun()
     {
         StartCoroutine(SunCoroutine());
@@ -25,9 +42,11 @@ public class ArtDisplay : MonoBehaviour
         SunVideoPlayer.gameObject.SetActive(true);
         SunVideoPlayer.Play();
         
-        yield return new WaitUntil(()=>SunVideoPlayer.videoPlayer.frame == 200);
+        // yield return new WaitUntil(()=> SunVideoPlayer.videoPlayer.frame == 200);
+        yield return new WaitForSeconds(10f);
         
         SunVideoPlayer.Stop();
+        defaultRenderer.enabled = true;
         SunVideoPlayer.gameObject.SetActive(false);
     }
     
@@ -35,7 +54,7 @@ public class ArtDisplay : MonoBehaviour
     #endregion
 
     #region Light
-
+    [ContextMenu("Show Light")]
     public void ShowLight()
     {
         
@@ -49,16 +68,18 @@ public class ArtDisplay : MonoBehaviour
         light.gameObject.SetActive(true);
         light.Play();
         
-        yield return new WaitForSeconds(5f);
-        light.Pause();
+        yield return new WaitForSeconds(10f);
+        defaultRenderer.enabled = true;
         light.gameObject.SetActive(false);
+        
+       
     }
     
 
     #endregion
 
     #region Blue Tear
-
+    [ContextMenu("Show Blue Tear")]
     public void ShowBlueTear()
     {
         StartCoroutine(BlueTearCoroutine());
@@ -71,7 +92,8 @@ public class ArtDisplay : MonoBehaviour
         blueTear.gameObject.SetActive(true);
         blueTear.Play();
         
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
+        defaultRenderer.enabled = true;
         blueTear.gameObject.SetActive(false);
     }
 
@@ -83,5 +105,6 @@ public class ArtDisplay : MonoBehaviour
         {
             vidPlayer.gameObject.SetActive(false);
         }
+        defaultRenderer.enabled = false;
     }
 }
