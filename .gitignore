@@ -78,8 +78,3 @@ crashlytics-build.properties
 
 #Code Coveerage
 /CodeCoverage/
-
-
-# Plugins
-
-/[Aa]ssets/Plugins/*
